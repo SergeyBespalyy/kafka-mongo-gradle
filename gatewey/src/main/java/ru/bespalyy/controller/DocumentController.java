@@ -9,6 +9,8 @@ import ru.bespalyy.common.dto.DocumentDtoResponse;
 import ru.bespalyy.kafka.DocumentProducer;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 @RestController
 @RequestMapping("/documents")
@@ -21,10 +23,10 @@ public class DocumentController {
 
 
     @PostMapping
-    public String createDocument(@RequestBody DocumentDtoRequest documentDtoRequest) {
+    public DocumentDtoResponse createDocument(@RequestBody DocumentDtoRequest documentDtoRequest) throws ExecutionException, InterruptedException, TimeoutException {
         log.info("CLIENT Create document {}", documentDtoRequest);
-        documentProducer.sendMessage(documentDtoRequest);
-        return "createDocument successfully";
+
+        return documentProducer.sendAndReceiveMessage(documentDtoRequest);
     }
 
     @GetMapping("/{id}")
