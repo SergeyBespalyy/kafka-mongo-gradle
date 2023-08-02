@@ -1,0 +1,6 @@
+spring:
+  data:
+    mongodb:
+      database: kafkaMongoSpringDb
+      host: javamongodb
+      port: 27017
