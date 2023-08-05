@@ -1,0 +1,9 @@
+plugins {
+    id 'ru.bespalyy.java-conventions'
+}
+
+description = 'common'
+
+//tasks.named('jar') {
+//    enabled = false
+//}
