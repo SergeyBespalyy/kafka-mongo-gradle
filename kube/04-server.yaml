@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-service
+  namespace: kafka-cluster
+spec:
+  selector:
+    app: server
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  namespace: kafka-cluster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          image: sergeybespalyy/kafka-mongo-compose-server:v.1.0
+          ports:
+            - containerPort: 9090
+          env:
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: kafka-service:29092
+            - name: javamongodb
+              value: mongodb-service
